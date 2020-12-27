@@ -1,0 +1,27 @@
+FROM debian:buster-slim
+RUN apt-get -y update
+RUN mkdir -p /usr/share/man/man1
+RUN apt-get install -y --no-install-recommends locales bash git wget ssh sudo apt-transport-https ca-certificates dirmngr gnupg software-properties-common
+RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && locale-gen
+
+RUN apt-get install -y --no-install-recommends mesa-utils libgl1-mesa-glx libgl1-mesa-dri
+RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && add-apt-repository https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && apt-get update
+RUN apt-get install -y adoptopenjdk-8-hotspot openjdk-11-jre build-essential manpages-dev gcc-avr avr-libc avrdude avrdude-doc
+
+RUN useradd -m -u 1000 -G dialout,sudo -s /bin/bash developer && echo "developer:ct-bot" | chpasswd
+RUN mkdir /home/developer/.bin && ln -s /usr/bin/gcc /home/developer/.bin/armv8l-linux-gnueabihf-gcc && ln -s /usr/bin/g++ /home/developer/.bin/armv8l-linux-gnueabihf-g++
+
+ARG version=2020-12
+RUN wget -O /tmp/eclipse.tgz "http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/$version/R/eclipse-java-$version-R-linux-gtk-x86_64.tar.gz" && tar -xzf /tmp/eclipse.tgz -C /opt && rm /tmp/eclipse.tgz
+
+USER developer
+ENV HOME /home/developer
+ENV PATH="${PATH}:$HOME/.bin"
+
+RUN /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repository http://download.eclipse.org/releases/$version -installIU org.eclipse.cdt.feature.group && /opt/eclipse/eclipse -application org.eclipse.equinox.p2.director -repository http://download.eclipse.org/releases/$version -installIU org.eclipse.linuxtools.cdt.libhover.feature.feature.group
+COPY --chown=developer:developer workspace_$version.tgz /opt/workspace.tgz
+COPY --chown=root:root entry_eclipse.sh /opt/entry.sh
+
+WORKDIR /data
+ENTRYPOINT /opt/entry.sh
+
