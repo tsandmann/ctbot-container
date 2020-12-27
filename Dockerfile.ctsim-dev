@@ -12,7 +12,7 @@ RUN useradd -m -u 1000 -G dialout,sudo -s /bin/bash developer && echo "developer
 
 USER developer
 ENV HOME /home/developer
-COPY entry_ctsim-dev.sh /opt/entry.sh
+COPY container_data/entry_ctsim-dev.sh /opt/entry.sh
 
 ARG version=master
 WORKDIR /data

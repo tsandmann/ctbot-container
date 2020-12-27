@@ -9,7 +9,7 @@ RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | a
 RUN apt-get install -y adoptopenjdk-8-hotspot fontconfig unzip
 
 RUN useradd -m -u 1000 -G dialout,sudo -s /bin/bash developer && echo "developer:ct-bot" | chpasswd
-COPY entry_ctsim.sh /opt/entry.sh
+COPY container_data/entry_ctsim.sh /opt/entry.sh
 
 ARG version=2.28
 USER developer
