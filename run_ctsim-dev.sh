@@ -16,7 +16,9 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-DATA_PATH=${1:-$HOME/data}
+DATA_PATH=`readlink -f ${1:-$HOME/data}`
+echo "Using data path $DATA_PATH"
+echo "Starting ct-Sim built from source"
 
 COMMAND=podman
 IDMAP_ARGS="--uidmap 1000:0:1 --uidmap 0:1:999 --uidmap 1001:1001:64535 --gidmap 1000:0:1 --gidmap 0:1:999 --gidmap 1001:1001:64535"
