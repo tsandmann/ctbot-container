@@ -1,0 +1,14 @@
+ARG version=2020-12
+FROM ctbot-eclipse:$version
+
+USER root
+RUN git clone https://github.com/tsandmann/armv8l-toolchain-linux.git /usr/local/armv8l-unknown-linux-gnueabihf && rm -rf /usr/local/armv8l-unknown-linux-gnueabihf/.git
+RUN rm -f /home/developer/.bin/armv8l-linux-gnueabihf-g*
+
+USER developer
+ENV HOME /home/developer
+ENV PATH="${PATH}:/usr/local/armv8l-unknown-linux-gnueabihf/bin"
+
+WORKDIR /data
+ENTRYPOINT /opt/entry.sh
+
