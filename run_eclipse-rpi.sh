@@ -16,7 +16,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-DATA_PATH=`readlink -f ${1:-$HOME/data}`
+READLINK=greadlink
+if ! command -v $READLINK &> /dev/null
+then
+    READLINK=readlink
+    if ! command -v $READLINK &> /dev/null
+    then
+        echo "Neither readlink nor greadlink found, abort."
+        exit
+    fi
+fi
+DATA_PATH=`$READLINK -f ${1:-$HOME/data}`
 echo "Using data path $DATA_PATH"
 VERSION=${2:-2020-12}
 echo "Starting Eclipse version $VERSION"
@@ -33,7 +43,7 @@ then
     if ! command -v $COMMAND &> /dev/null
     then
         echo "Neither podman nor docker found, abort."
-    exit
+        exit
     fi
 
     IDMAP_ARGS="" 
