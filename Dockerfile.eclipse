@@ -17,6 +17,7 @@
 FROM debian:buster-slim
 RUN apt-get -y update
 RUN mkdir -p /usr/share/man/man1
+RUN apt-get -y upgrade
 RUN apt-get install -y --no-install-recommends locales bash git wget ssh sudo apt-transport-https ca-certificates dirmngr gnupg software-properties-common
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && locale-gen
 

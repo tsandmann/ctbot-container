@@ -32,5 +32,5 @@ then
 fi
 
 $COMMAND build -t ctsim:$VERSION -f ./Dockerfile.ctsim --build-arg version=$VERSION .
-$COMMAND build -t ctsim-dev -f ./Dockerfile.ctsim-dev --build-arg version=develop .
+$COMMAND build -t ctsim-dev -f ./Dockerfile.ctsim-dev --build-arg version=develop --build-arg base_version=$VERSION .
 
