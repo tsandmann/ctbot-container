@@ -28,7 +28,7 @@ then
 fi
 DATA_PATH=`$READLINK -f ${1:-$HOME/data}`
 echo "Using data path $DATA_PATH"
-VERSION=${2:-2.28}
+VERSION=${2:-2.29}
 echo "Starting ct-Sim version $VERSION"
 
 COMMAND=podman
