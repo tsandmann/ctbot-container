@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ctbot-container
-# Copyright (C) 2020 Timo Sandmann
+# Copyright (C) 2021 Timo Sandmann
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@ then
 fi
 DATA_PATH=`$READLINK -f ${1:-$HOME/data}`
 echo "Using data path $DATA_PATH"
-VERSION=${2:-2.29}
+VERSION=${2:-latest}
 echo "Starting ct-Sim version $VERSION"
 
 COMMAND=podman

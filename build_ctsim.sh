@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ctbot-container
-# Copyright (C) 2020 Timo Sandmann
+# Copyright (C) 2021 Timo Sandmann
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 VERSION=${1:-2.29}
+USER_ARGS="${@:2}"
 
 COMMAND=podman
 if ! command -v $COMMAND &> /dev/null
@@ -31,6 +32,6 @@ then
     echo "podman not found, will use docker."
 fi
 
-$COMMAND build -t ctsim:$VERSION -f ./Dockerfile.ctsim --build-arg version=$VERSION .
-$COMMAND build -t ctsim-dev -f ./Dockerfile.ctsim-dev --build-arg version=develop --build-arg base_version=$VERSION .
+$COMMAND build -t ctsim:$VERSION -f ./Dockerfile.ctsim --build-arg version=$VERSION $USER_ARGS .
+$COMMAND build -t ctsim-dev -f ./Dockerfile.ctsim-dev --build-arg version=develop --build-arg base_version=$VERSION $USER_ARGS .
 
