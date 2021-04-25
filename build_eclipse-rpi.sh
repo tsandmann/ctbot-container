@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ctbot-container
-# Copyright (C) 2020 Timo Sandmann
+# Copyright (C) 2021 Timo Sandmann
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -10,13 +10,14 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-VERSION=${1:-2020-12}
+VERSION=${1:-2021-03}
+USER_ARGS="${@:2}"
 
 COMMAND=podman
 if ! command -v $COMMAND &> /dev/null
@@ -31,5 +32,5 @@ then
     echo "podman not found, will use docker."
 fi
 
-$COMMAND build -t ctbot-eclipse-rpi:$VERSION -f ./Dockerfile.eclipse-rpi --build-arg version=$VERSION .
+$COMMAND build -t ctbot-eclipse-rpi:$VERSION -f ./Dockerfile.eclipse-rpi --build-arg version=$VERSION $USER_ARGS .
 

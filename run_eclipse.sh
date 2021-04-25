@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ctbot-container
-# Copyright (C) 2020 Timo Sandmann
+# Copyright (C) 2021 Timo Sandmann
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -10,11 +10,11 @@
 #
 # This program is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
 # GNU General Public License for more details.
 #
 # You should have received a copy of the GNU General Public License
-# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+# along with this program. If not, see <https://www.gnu.org/licenses/>.
 
 READLINK=greadlink
 if ! command -v $READLINK &> /dev/null
@@ -28,7 +28,7 @@ then
 fi
 DATA_PATH=`$READLINK -f ${1:-$HOME/data}`
 echo "Using data path $DATA_PATH"
-VERSION=${2:-2020-12}
+VERSION=${2:-2021-03}
 echo "Starting Eclipse version $VERSION"
 
 COMMAND=podman
