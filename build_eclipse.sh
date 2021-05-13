@@ -32,5 +32,5 @@ then
     echo "podman not found, will use docker."
 fi
 
-$COMMAND build -t ctbot-eclipse:$VERSION -f ./Dockerfile.eclipse --build-arg version=$VERSION $USER_ARGS .
+$COMMAND build -t ctbot-eclipse:$VERSION -t docker.io/tsandmann/ctbot-eclipse:$VERSION -f ./Dockerfile.eclipse --build-arg version=$VERSION $USER_ARGS .
 
