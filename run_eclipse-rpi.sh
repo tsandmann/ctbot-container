@@ -28,7 +28,7 @@ then
 fi
 DATA_PATH=`$READLINK -f ${1:-$HOME/data}`
 echo "Using data path $DATA_PATH"
-VERSION=${2:-2021-03}
+VERSION=${2:-2021-06}
 echo "Starting Eclipse version $VERSION"
 
 COMMAND=podman

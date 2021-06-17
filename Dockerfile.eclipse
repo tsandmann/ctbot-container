@@ -22,13 +22,14 @@ RUN apt-get install -y --no-install-recommends locales bash git wget ssh sudo ap
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && locale-gen
 
 RUN apt-get install -y --no-install-recommends mesa-utils libgl1-mesa-glx libgl1-mesa-dri
-RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && add-apt-repository https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && apt-get update
-RUN apt-get install -y adoptopenjdk-8-hotspot openjdk-11-jre build-essential manpages-dev gcc-avr avr-libc avrdude avrdude-doc
+RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && add-apt-repository https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
+RUN apt-get -y update && apt-get install -y adoptopenjdk-8-hotspot libgtk-3-0 build-essential manpages-dev gcc-avr avr-libc avrdude avrdude-doc
 
 RUN useradd -m -u 1000 -G dialout,sudo -s /bin/bash developer && echo "developer:ct-bot" | chpasswd
 RUN mkdir /home/developer/.bin && ln -s /usr/bin/gcc /home/developer/.bin/armv8l-linux-gnueabihf-gcc && ln -s /usr/bin/g++ /home/developer/.bin/armv8l-linux-gnueabihf-g++
 
-ARG version=2021-03
+ARG version=2021-06
+RUN dpkg --compare-versions "$version" "lt" "2021-06" && apt-get install -y openjdk-11-jre || true
 RUN wget -O /tmp/eclipse.tgz "http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/$version/R/eclipse-java-$version-R-linux-gtk-x86_64.tar.gz" && tar -xzf /tmp/eclipse.tgz -C /opt && rm /tmp/eclipse.tgz
 
 USER developer
