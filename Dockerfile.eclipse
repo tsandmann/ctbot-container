@@ -1,5 +1,5 @@
 # ctbot-container
-# Copyright (C) 2021 Timo Sandmann
+# Copyright (C) 2022 Timo Sandmann
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@ RUN mkdir /home/developer/.bin && ln -s /usr/bin/gcc /home/developer/.bin/armv8l
 
 ARG version=2021-06
 RUN dpkg --compare-versions "$version" "lt" "2021-06" && apt-get install -y openjdk-11-jre || true
-RUN wget -O /tmp/eclipse.tgz "http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/$version/R/eclipse-java-$version-R-linux-gtk-x86_64.tar.gz" && tar -xzf /tmp/eclipse.tgz -C /opt && rm /tmp/eclipse.tgz
+RUN wget -O /tmp/eclipse.tgz "http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/$version/R/eclipse-java-$version-R-linux-gtk-x86_64.tar.gz" && tar -xzf /tmp/eclipse.tgz -C /opt --no-same-owner && rm /tmp/eclipse.tgz
 
 USER developer
 ENV HOME /home/developer

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # ctbot-container
-# Copyright (C) 2021 Timo Sandmann
+# Copyright (C) 2022 Timo Sandmann
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -28,7 +28,6 @@ then
 fi
 DATA_PATH=`$READLINK -f ${1:-$HOME/data}`
 echo "Using data path $DATA_PATH"
-echo "Starting ct-Sim built from source"
 
 COMMAND=podman
 IDMAP_ARGS="--uidmap 1000:0:1 --uidmap 0:1:999 --uidmap 1001:1001:64535 --gidmap 1000:0:1 --gidmap 0:1:999 --gidmap 1001:1001:64535"
@@ -62,5 +61,6 @@ if [[ $OSTYPE == *"darwin"* ]]; then
 fi
 
 $XHOST_CMD +si:localuser:$USER
-$COMMAND run --rm -it -v $DATA_PATH:/data -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$X11_DISPLAY --security-opt=label=type:container_runtime_t -p 10001:10001 $IDMAP_ARGS $USER_ARGS docker.io/tsandmann/ctsim-dev
+echo "Starting ct-Sim built from source ..."
+$COMMAND run --rm -it --hostname=ctsim-container -v $DATA_PATH:/data -v /tmp/.X11-unix:/tmp/.X11-unix -e DISPLAY=$X11_DISPLAY --security-opt=label=type:container_runtime_t -p 10001:10001 $IDMAP_ARGS $USER_ARGS docker.io/tsandmann/ctsim-dev
 $XHOST_CMD -si:localuser:$USER
