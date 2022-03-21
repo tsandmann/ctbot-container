@@ -32,6 +32,6 @@ then
     echo "podman not found, will use docker."
 fi
 
-$COMMAND build -t ctsim:$VERSION -t docker.io/tsandmann/ctsim:$VERSION -t docker.io/tsandmann/ctsim:latest -f ./Dockerfile.ctsim --build-arg version=$VERSION $USER_ARGS .
-$COMMAND build -t ctsim-dev -t docker.io/tsandmann/ctsim-dev -f ./Dockerfile.ctsim-dev --build-arg version=develop --build-arg base_version=$VERSION $USER_ARGS .
+$COMMAND build -t ctsim:$VERSION -f ./Dockerfile.ctsim --build-arg version=$VERSION $USER_ARGS .
+$COMMAND build -t ctsim-dev:latest -f ./Dockerfile.ctsim-dev --build-arg version=develop --build-arg base_version=$VERSION $USER_ARGS .
 
