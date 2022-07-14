@@ -46,6 +46,9 @@ then
     fi
 
     IDMAP_ARGS="" 
+    if [[ $OSTYPE == *"linux"* ]]; then
+        IDMAP_ARGS="--device /dev/dri:/dev/dri:rwm"
+    fi
     echo "podman not found, will use docker."
 fi
 
