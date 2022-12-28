@@ -16,7 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-VERSION=${1:-2.29.1}
+VERSION=${1:-2.29.2}
 USER_ARGS="${@:2}"
 
 COMMAND=podman
