@@ -1,5 +1,5 @@
 # ctbot-container
-# Copyright (C) 2022 Timo Sandmann
+# Copyright (C) 2023 Timo Sandmann
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-FROM debian:buster-slim
+FROM debian:12-slim
 RUN apt-get -y update
 RUN mkdir -p /usr/share/man/man1
 RUN apt-get -y upgrade
@@ -22,8 +22,8 @@ RUN apt-get install -y --no-install-recommends locales bash git wget ssh sudo ap
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && locale-gen
 
 RUN apt-get install -y --no-install-recommends mesa-utils libgl1-mesa-glx libgl1-mesa-dri
-RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && add-apt-repository https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/ && apt-get update
-RUN apt-get install -y adoptopenjdk-8-hotspot fontconfig unzip
+RUN wget -qO - https://repos.azul.com/azul-repo.key | gpg --dearmor -o /usr/share/keyrings/azul.gpg && echo "deb [signed-by=/usr/share/keyrings/azul.gpg] https://repos.azul.com/zulu/deb stable main" > /etc/apt/sources.list.d/zulu.list && apt-get update
+RUN apt-get install -y zulu8-jdk fontconfig unzip
 
 RUN useradd -m -u 1000 -G dialout,sudo -s /bin/bash developer && echo "developer:ct-bot" | chpasswd
 COPY container_data/entry_ctsim.sh /opt/entry.sh
