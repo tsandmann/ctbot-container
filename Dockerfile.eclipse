@@ -1,5 +1,5 @@
 # ctbot-container
-# Copyright (C) 2022 Timo Sandmann
+# Copyright (C) 2023 Timo Sandmann
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program. If not, see <https://www.gnu.org/licenses/>.
 
-FROM debian:buster-slim
+FROM debian:12-slim
 RUN apt-get -y update
 RUN mkdir -p /usr/share/man/man1
 RUN apt-get -y upgrade
@@ -22,15 +22,16 @@ RUN apt-get install -y --no-install-recommends locales bash git wget ssh sudo ap
 RUN sed -i 's/^# *\(en_US.UTF-8\)/\1/' /etc/locale.gen && locale-gen
 
 RUN apt-get install -y --no-install-recommends mesa-utils libgl1-mesa-glx libgl1-mesa-dri
-RUN wget -qO - https://adoptopenjdk.jfrog.io/adoptopenjdk/api/gpg/key/public | apt-key add - && add-apt-repository https://adoptopenjdk.jfrog.io/adoptopenjdk/deb/
-RUN apt-get -y update && apt-get install -y adoptopenjdk-8-hotspot libgtk-3-0 build-essential manpages-dev gcc-avr avr-libc avrdude avrdude-doc
+RUN wget -qO - https://repos.azul.com/azul-repo.key | gpg --dearmor -o /usr/share/keyrings/azul.gpg && echo "deb [signed-by=/usr/share/keyrings/azul.gpg] https://repos.azul.com/zulu/deb stable main" > /etc/apt/sources.list.d/zulu.list && apt-get update
+RUN apt-get install -y zulu8-jdk fontconfig unzip
+RUN apt-get install -y libgtk-3-0 build-essential manpages-dev gcc-avr avr-libc avrdude avrdude-doc
 
 RUN useradd -m -u 1000 -G dialout,sudo -s /bin/bash developer && echo "developer:ct-bot" | chpasswd
 RUN mkdir /home/developer/.bin && ln -s /usr/bin/gcc /home/developer/.bin/armv8l-linux-gnueabihf-gcc && ln -s /usr/bin/g++ /home/developer/.bin/armv8l-linux-gnueabihf-g++
 
-ARG version=2021-06
+ARG version=2023-09
 RUN dpkg --compare-versions "$version" "lt" "2021-06" && apt-get install -y openjdk-11-jre || true
-RUN wget -O /tmp/eclipse.tgz "http://ftp-stud.fht-esslingen.de/pub/Mirrors/eclipse/technology/epp/downloads/release/$version/R/eclipse-java-$version-R-linux-gtk-x86_64.tar.gz" && tar -xzf /tmp/eclipse.tgz -C /opt --no-same-owner && rm /tmp/eclipse.tgz
+RUN wget -O /tmp/eclipse.tgz "https://ftp.halifax.rwth-aachen.de/eclipse/technology/epp/downloads/release/2023-09/R/eclipse-java-$version-R-linux-gtk-x86_64.tar.gz" && tar -xzf /tmp/eclipse.tgz -C /opt --no-same-owner && rm /tmp/eclipse.tgz
 
 USER developer
 ENV HOME /home/developer
